@@ -2,8 +2,8 @@
 
 
 ## Steps<br>
-###Install docker<br>
-###Run DSE Images:<br>
+### Install docker<br>
+### Run DSE Images:<br>
 docker run --privileged -e DS_LICENSE=accept --name my-dse -d -P store/datastax/dse-server:5.1.5 -k -s<br>
 docker run -e DS_LICENSE=accept --link my-dse --name my-studio -p 9091:9091 -d datastax/dse-studio<br>
 <br>
@@ -61,13 +61,13 @@ PRIMARY KEY ((origin, fl_date)))<br>
 git clone https://github.com/sunileman/cassandra-example.git<br>
 <br>
 <br>
-#### change director into<br>
+### change director into<br>
 cd cassandra-example/FlightExercise/flights-data<br>
 <br>
 ### clean and build<br>
 mvn clean package<br>
 <br>
-#### cd into target directory<br>
+### cd into target directory<br>
 <br>
 ### run application to load cassandra<br>
 java -jar cassandra.jar <yourHostIp> <CassandraPort><br>
