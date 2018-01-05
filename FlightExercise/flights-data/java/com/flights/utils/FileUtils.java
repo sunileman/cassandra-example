@@ -13,7 +13,7 @@ public class FileUtils {
 
 		List<String> fileList = new ArrayList<String>();
 		BufferedReader br = null;
-		File file = new File("src/main/resources", filename);
+		File file = new File("../resources/", filename);
 
 		try {
 			String currentLine;
