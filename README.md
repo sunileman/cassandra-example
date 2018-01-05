@@ -46,14 +46,14 @@ CREATE TABLE flights_q2 (<br>
   origin text,<br>
   dest text,<br>
   dep_time INT,<br>
-  PRIMARY KEY (fl_date, dep_time))<br>
+  PRIMARY KEY (fl_date, dep_time, id))<br>
   WITH CLUSTERING ORDER BY (dep_time DESC)<br>
 <br>
 <br>
 CREATE TABLE flights_q3 (<br>
 fl_date date,<br>
 origin text,<br>
-PRIMARY KEY ((origin, fl_date)))<br>
+PRIMARY KEY ((origin, fl_date), id))<br>
 <br>
 <br>
 <br>
