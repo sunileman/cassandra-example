@@ -27,9 +27,10 @@ public class FlightLoaderForQuestions {
 
     private void loadq1(){
 
+        System.out.println("Loading flights_q1");
+
         for (Flight flight : flightList) {
 
-            System.out.println("Loading flights_q1");
 
             Insert query = QueryBuilder.insertInto("flights_q1")
                     .value("id", flight.getId())
@@ -59,6 +60,7 @@ public class FlightLoaderForQuestions {
     private void loadq2(){
 
         System.out.println("Loading flights_q2");
+
         for (Flight flight : flightList) {
 
             //System.out.println(flight);
