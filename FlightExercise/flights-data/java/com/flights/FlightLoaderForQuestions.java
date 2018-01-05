@@ -11,6 +11,7 @@ public class FlightLoaderForQuestions {
     Session session;
     List<Flight> flightList;
 
+
     public FlightLoaderForQuestions(Session session, List<Flight> flightList) {
         this.session = session;
         this.flightList = flightList;
@@ -66,6 +67,7 @@ public class FlightLoaderForQuestions {
             //System.out.println(flight);
 
             Insert query = QueryBuilder.insertInto("flights_q2")
+                    .value("id", flight.getId())
                     .value("fl_date", flight.getFlDate())
                     .value("carrier", flight.getCarrier())
                     .value("origin", flight.getOrigin())
@@ -86,6 +88,7 @@ public class FlightLoaderForQuestions {
             //System.out.println(flight);
 
             Insert query = QueryBuilder.insertInto("flights_q3")
+                    .value("id", flight.getId())
                     .value("fl_date", flight.getFlDate())
                     .value("origin", flight.getOrigin())
                     ;
