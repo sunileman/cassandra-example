@@ -18,6 +18,8 @@ public class ProcessFlightsCSV {
 		List<String> readFileIntoList = FileUtils.readFileIntoList(filename);
 		
 		Flight flight;
+
+		System.out.println("Processing CSV file ...");
 		
 		for (String row : readFileIntoList) {
 			
