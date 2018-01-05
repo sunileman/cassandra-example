@@ -11,12 +11,17 @@ import com.flights.objects.Flight;
 public class LoadToFlightsTable {
 
 	public static void main(String[] args) {
+
+
+		String cassandraIP = args[0];
+		int port = Integer.parseInt(args[1]);
+
 		String username = "cassandra";
 		String password = "cassandra";
 		// Create a cluster instance
 		Cluster cluster = Cluster.builder()
-				.addContactPoint("34.239.44.247")
-				.withPort(32794)
+				.addContactPoint(cassandraIP)
+				.withPort(port)
                 .withCredentials(username.trim(), password.trim())
 				.build();
 		
