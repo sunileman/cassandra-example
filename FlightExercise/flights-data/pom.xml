@@ -5,7 +5,7 @@
   <version>0.0.1-SNAPSHOT</version>
     <properties>
         <uber.jar.name>cassandra.jar</uber.jar.name>
-        <uber.jar.main.class>LoadToFlightsTable</uber.jar.main.class>
+        <uber.jar.main.class>com.flights.LoadToFlightsTable</uber.jar.main.class>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
