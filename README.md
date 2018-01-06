@@ -50,12 +50,7 @@ CREATE TABLE flights_q2 (<br>
   WITH CLUSTERING ORDER BY (dep_time DESC)<br>
 <br>
 <br>
-CREATE TABLE flights_q3 (<br>
-fl_date date,<br>
-origin text,<br>
-PRIMARY KEY ((origin, fl_date), id))<br>
-<br>
-<br>
+
 <br>
 ### Git clone this repo<br>
 git clone https://github.com/sunileman/cassandra-example.git<br>
