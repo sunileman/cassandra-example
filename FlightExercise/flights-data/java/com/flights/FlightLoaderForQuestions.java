@@ -22,7 +22,7 @@ public class FlightLoaderForQuestions {
         System.out.println("Starting Load Process");
         loadq1();
         loadq2();
-        loadq3();
+        //loadq3();
         System.out.println("Load Process Finished");
     }
 
