@@ -30,6 +30,9 @@ public class FlightLoaderForQuestions {
         System.out.println(java.time.LocalDateTime.now());
         //loadq1();
         //loadq2();
+        System.out.println(java.time.LocalDateTime.now());
+        batchLoaderq2();
+        System.out.println(java.time.LocalDateTime.now());
         //loadq3();
         System.out.println("Load Process Finished");
     }
@@ -188,6 +191,43 @@ public class FlightLoaderForQuestions {
                     .value("dep_time", flight.getDepTime())
                     .value("arr_time", flight.getArrTime())
                     .value("distance", flight.getDistance()));
+
+            batchSize++;
+
+
+
+            if (batchSize >= MAX_RAW_BATCH_TO_CASSANDRA) {
+                session.execute(batch);
+                batch = QueryBuilder.batch();
+                batchSize = 0;
+            }
+        }
+
+        if (batchSize != 0) {
+            session.execute(batch);
+        }
+
+
+    }
+
+    private void batchLoaderq2() {
+
+        Batch batch = QueryBuilder.batch();
+
+        int MAX_RAW_BATCH_TO_CASSANDRA = 1000;
+
+        int batchSize = 0;
+
+        for (Flight flight : flightList) {
+
+
+            batch.add(QueryBuilder.insertInto("flights_q2")
+                    .value("id", flight.getId())
+                    .value("fl_date", flight.getFlDate())
+                    .value("carrier", flight.getCarrier())
+                    .value("origin", flight.getOrigin())
+                    .value("dest", flight.getDest())
+                    .value("dep_time", flight.getDepTime()));
 
             batchSize++;
 
