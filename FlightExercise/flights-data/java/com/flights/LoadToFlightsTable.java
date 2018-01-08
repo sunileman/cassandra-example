@@ -17,6 +17,7 @@ public class LoadToFlightsTable {
 		String username = "cassandra";
 		String password = "cassandra";
 		// Create a cluster instance
+		//default port is 9042
 		Cluster cluster = Cluster.builder()
 				.addContactPoint(cassandraIP)
 				.withPort(port)

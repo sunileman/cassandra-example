@@ -1,10 +1,14 @@
 package com.flights;
 
 import com.datastax.driver.core.Session;
+
+import com.datastax.driver.core.querybuilder.Batch;
 import com.datastax.driver.core.querybuilder.Insert;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.flights.objects.Flight;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 public class FlightLoaderForQuestions {
@@ -20,8 +24,12 @@ public class FlightLoaderForQuestions {
 
     public void loadFlights(){
         System.out.println("Starting Load Process");
-        loadq1();
-        loadq2();
+
+        System.out.println(java.time.LocalDate.now());
+        batchLoaderq1();
+        System.out.println(java.time.LocalDate.now());
+        //loadq1();
+        //loadq2();
         //loadq3();
         System.out.println("Load Process Finished");
     }
@@ -31,6 +39,7 @@ public class FlightLoaderForQuestions {
         System.out.println("Loading flights_q1");
 
         for (Flight flight : flightList) {
+
 
 
             Insert query = QueryBuilder.insertInto("flights_q1")
@@ -94,6 +103,48 @@ public class FlightLoaderForQuestions {
                     ;
 
             session.execute(query);
+        }
+
+    }
+
+    private void batchLoaderq1() {
+
+        Batch batch = QueryBuilder.batch();
+
+        int MAX_RAW_BATCH_TO_CASSANDRA = 100000;
+
+        int batchSize = 0;
+
+        for (Flight flight : flightList) {
+
+
+                batch.add(QueryBuilder.insertInto("flights_q1")
+                        .value("id", flight.getId())
+                        .value("year", flight.getYear())
+                        .value("fl_date", flight.getFlDate())
+                        .value("airline_id", flight.getAirlineId())
+                        .value("carrier", flight.getCarrier())
+                        .value("fl_num", flight.getFlNum())
+                        .value("origin_airport_id", flight.getOriginAirportId())
+                        .value("origin", flight.getOrigin())
+                        .value("origin_city_name", flight.getOriginCityName())
+                        .value("origin_state_abr", flight.getOriginStateAbr())
+                        .value("dest", flight.getDest())
+                        .value("day_of_month", flight.getDayOfMonth())
+                        .value("dest_city_name", flight.getDestCityName())
+                        .value("dest_state_abr", flight.getDestStateAbr())
+                        .value("dep_time", flight.getDepTime())
+                        .value("arr_time", flight.getArrTime())
+                        .value("distance", flight.getDistance()));
+
+                batchSize++;
+
+
+
+            if (batchSize >= MAX_RAW_BATCH_TO_CASSANDRA) {
+                batch = QueryBuilder.batch();
+                batchSize = 0;
+            }
         }
 
     }
