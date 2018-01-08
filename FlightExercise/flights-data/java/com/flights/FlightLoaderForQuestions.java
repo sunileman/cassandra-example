@@ -109,7 +109,7 @@ public class FlightLoaderForQuestions {
 
         Batch batch = QueryBuilder.batch();
 
-        int MAX_RAW_BATCH_TO_CASSANDRA = 10;
+        int MAX_RAW_BATCH_TO_CASSANDRA = 3000;
 
         int batchSize = 0;
 
