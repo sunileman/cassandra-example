@@ -155,13 +155,7 @@ public class FlightLoaderForQuestions {
         }
 
         for (ResultSetFuture future : resultSetFutures) {
-            try {
-                future.get();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
+                future.getUninterruptibly();
         }
 
     }
