@@ -1,5 +1,6 @@
 package com.flights;
 
+import com.datastax.driver.core.ResultSetFuture;
 import com.datastax.driver.core.Session;
 
 import com.datastax.driver.core.querybuilder.Batch;
@@ -8,7 +9,9 @@ import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.flights.objects.Flight;
 
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class FlightLoaderForQuestions {
     Session session;
@@ -107,6 +110,7 @@ public class FlightLoaderForQuestions {
 
     private void batchLoaderq1() {
 
+        List<ResultSetFuture> resultSetFutures = new ArrayList<ResultSetFuture>();
         Batch batch = QueryBuilder.batch();
 
         int MAX_RAW_BATCH_TO_CASSANDRA = 10;
@@ -140,14 +144,24 @@ public class FlightLoaderForQuestions {
 
 
             if (batchSize >= MAX_RAW_BATCH_TO_CASSANDRA) {
-                session.executeAsync(batch);
+                resultSetFutures.add(session.executeAsync(batch));
                 batch = QueryBuilder.batch();
                 batchSize = 0;
             }
         }
 
         if (batchSize != 0) {
-            session.executeAsync(batch);
+            resultSetFutures.add(session.executeAsync(batch));
+        }
+
+        for (ResultSetFuture future : resultSetFutures) {
+            try {
+                future.get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
         }
 
     }
