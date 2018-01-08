@@ -7,8 +7,7 @@ import com.datastax.driver.core.querybuilder.Insert;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.flights.objects.Flight;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+
 import java.util.List;
 
 public class FlightLoaderForQuestions {
@@ -141,9 +140,14 @@ public class FlightLoaderForQuestions {
 
 
             if (batchSize >= MAX_RAW_BATCH_TO_CASSANDRA) {
+                session.executeAsync(batch);
                 batch = QueryBuilder.batch();
                 batchSize = 0;
             }
+        }
+
+        if (batchSize != 0) {
+            session.executeAsync(batch);
         }
 
     }
