@@ -11,7 +11,6 @@ import com.flights.objects.Flight;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class FlightLoaderForQuestions {
     Session session;
@@ -108,7 +107,7 @@ public class FlightLoaderForQuestions {
 
     }
 
-    private void batchLoaderq1() {
+    private void batchLoaderAsyncq1() {
 
         List<ResultSetFuture> resultSetFutures = new ArrayList<ResultSetFuture>();
         Batch batch = QueryBuilder.batch();
@@ -157,6 +156,54 @@ public class FlightLoaderForQuestions {
         for (ResultSetFuture future : resultSetFutures) {
                 future.getUninterruptibly();
         }
+
+    }
+
+    private void batchLoaderq1() {
+
+        Batch batch = QueryBuilder.batch();
+
+        int MAX_RAW_BATCH_TO_CASSANDRA = 3000;
+
+        int batchSize = 0;
+
+        for (Flight flight : flightList) {
+
+
+            batch.add(QueryBuilder.insertInto("flights_q1")
+                    .value("id", flight.getId())
+                    .value("year", flight.getYear())
+                    .value("fl_date", flight.getFlDate())
+                    .value("airline_id", flight.getAirlineId())
+                    .value("carrier", flight.getCarrier())
+                    .value("fl_num", flight.getFlNum())
+                    .value("origin_airport_id", flight.getOriginAirportId())
+                    .value("origin", flight.getOrigin())
+                    .value("origin_city_name", flight.getOriginCityName())
+                    .value("origin_state_abr", flight.getOriginStateAbr())
+                    .value("dest", flight.getDest())
+                    .value("day_of_month", flight.getDayOfMonth())
+                    .value("dest_city_name", flight.getDestCityName())
+                    .value("dest_state_abr", flight.getDestStateAbr())
+                    .value("dep_time", flight.getDepTime())
+                    .value("arr_time", flight.getArrTime())
+                    .value("distance", flight.getDistance()));
+
+            batchSize++;
+
+
+
+            if (batchSize >= MAX_RAW_BATCH_TO_CASSANDRA) {
+                session.execute(batch);
+                batch = QueryBuilder.batch();
+                batchSize = 0;
+            }
+        }
+
+        if (batchSize != 0) {
+            session.execute(batch);
+        }
+
 
     }
 
