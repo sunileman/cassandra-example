@@ -23,11 +23,10 @@ public class FlightLoaderForQuestions {
     }
 
     public void loadFlights(){
-        System.out.println("Starting Load Process");
 
-        System.out.println(java.time.LocalDate.now());
+        System.out.println(java.time.LocalDateTime.now());
         batchLoaderq1();
-        System.out.println(java.time.LocalDate.now());
+        System.out.println(java.time.LocalDateTime.now());
         //loadq1();
         //loadq2();
         //loadq3();
